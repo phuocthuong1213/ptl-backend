@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.3",
+    "express-validator": "^6.6.1",
+    "formidable": "^1.2.2",
+    "js-sha256": "^0.9.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^1.19.4",
+    "sha256": "^0.2.0",
+    "shortid": "^2.2.15",
+    "slugify": "^1.4.5",
+    "string-strip-html": "^4.5.1",
+    "uuid": "^8.3.0"
+  }
+}
