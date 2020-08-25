@@ -79,8 +79,6 @@ exports.signout = (req, res) => {
 
 exports.checkLoginUser = (req, res, next) => {
     const _id = req.body.id;
-    
-    // console.log(userId);
     const token = req.body.token
     User.findOne({ _id }).exec((err, user) => {
         if (err || !user) {
