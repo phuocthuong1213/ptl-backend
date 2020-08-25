@@ -4,7 +4,7 @@ const formidable = require('formidable');//API upload Avarta
 const _ = require('lodash')
 const fs = require('fs')
 const sha256 = require("js-sha256");
-exports.checkLoginUser = (req, res, next) => {
+exports.checkLoginUser = (req, res) => {
     const _id = req.body._id;
     // console.log(userId);
     const tokenRequest = req.body.token
@@ -27,8 +27,30 @@ exports.checkLoginUser = (req, res, next) => {
 }
 
 
+exports.list = (req, res) => {
+    const token = req.body.token
+    User.findOne({ token }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'User does not exist'
+            });
+        }
+        if (user.roleType !== "0") {
+            return res.status(400).json({
+                error: 'The account is not authorized'
+            });
+        }
+        User.find({}, function (err, users) {
+            var userMap = {};
 
+            users.forEach(function (user) {
+                userMap[user._id] = user;
+            });
 
+            res.send(userMap);
+        });
+    })
+}
 
 exports.update = (req, res) => {
     const token = req.header('Authorization').replace('Bearer ', '')
@@ -68,3 +90,39 @@ exports.update = (req, res) => {
         });
     })
 };
+
+exports.updateimages = (req, res) => { }
+
+exports.remove = (req, res) => {
+    const token = req.body.token;
+    const _id = req.body._id;
+    User.findOne({ _id }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'User does not exist'
+            });
+        }
+        const id = JSON.stringify(user._id)
+        if (JSON.stringify(_id) !== id) {
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        } else if (token !== user.token) {
+            return res.status(400).json({
+                error: 'Token not found'
+            });
+        } else {
+            User.remove({ _id }).exec((err, data) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    });
+                }
+                res.json({
+                    message: 'User deleted successfully'
+                });
+            })
+        }
+
+    })
+}
